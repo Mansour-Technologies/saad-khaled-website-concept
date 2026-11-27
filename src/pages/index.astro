@@ -1,0 +1,212 @@
+---
+import Base from '../layouts/Base.astro';
+import Poster from '../components/Poster.astro';
+import Topo from '../components/Topo.astro';
+import { LINKS, CHANNELS, RESULTS, MILESTONES, VOICE, DECATHLON_FORMATS, OTHER_MENTIONS, SERIES, SITE } from '../data/site';
+const best = RESULTS.find((r) => r.best)!;
+---
+<Base>
+  <div class="progress" data-progress aria-hidden="true"><span class="progress__bar"></span><span class="progress__km"><b data-km>0,0</b> / 21,1 km</span></div>
+
+  <!-- KM 0 — DÉPART -->
+  <section class="hero" id="depart" aria-labelledby="hero-title">
+    <Topo variant="hero" class="hero__topo" />
+    <div class="hero__media">
+      <Poster k="hero" eager class="poster--hero" showCaption={false} />
+      <span class="hero__veil" aria-hidden="true"></span>
+    </div>
+    <div class="hero__type">
+      <p class="hero__kicker"><span>Running & trail</span><span aria-hidden="true">·</span><span>Maroc</span></p>
+      <h1 id="hero-title" class="hero__name"><span class="hero__first">Saad</span> <span class="hero__last">Khaled</span></h1>
+      <div class="hero__info">
+        <p class="hero__tag"><span class="q">« Discipline en personne. »</span> <span class="hero__src">— sa signature, sur Instagram et YouTube</span></p>
+        <p class="hero__role">Ambassadeur running <strong>Decathlon Maroc</strong> depuis juin 2026 · <a href="#chrono">5 courses officielles chronométrées</a></p>
+        <div class="hero__actions">
+          <a class="btn btn--clay" href={LINKS.instagramDm} target="_blank" rel="noopener noreferrer">Proposer un partenariat <span aria-hidden="true">↗</span></a>
+          <button class="btn btn--ghost" type="button" data-yt="HV8YQGQB4Wc" data-title="Short officiel du 8 novembre 2026" data-proxy aria-label="Lire la vidéo officielle : Short officiel du 8 novembre 2026"><span class="btn__play" aria-hidden="true">▶</span> Le Short</button>
+        </div>
+      </div>
+      <p class="hero__credit">Image : Short officiel YouTube — @SaadKhaledd · 8 nov. 2026</p>
+    </div>
+    <a class="hero__scroll" href="#manifeste" aria-label="Commencer le parcours"><span>KM 0</span><i aria-hidden="true"></i></a>
+  </section>
+
+  <!-- MANIFESTE -->
+  <section class="voice" id="manifeste" aria-label="Ses mots">
+    <div class="voice__track" aria-hidden="true">
+      {[0, 1].map(() => (
+        <div class="voice__row">{VOICE.map((v) => <span class="voice__q">« {v.q} »<em>{v.d}</em></span>)}</div>
+      ))}
+    </div>
+    <ul class="voice__list sr-only">
+      {VOICE.map((v) => <li>« {v.q} » — légende de Saad Khaled, {v.d}</li>)}
+    </ul>
+    <p class="voice__src">Ses légendes, en darija, français et anglais, citées telles quelles · <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer">@saad.khaledd</a></p>
+  </section>
+
+  <!-- KM 5 — PARCOURS -->
+  <section class="story" id="parcours" aria-labelledby="story-title">
+    <header class="sec-head" data-reveal>
+      <p class="sec-head__km">KM 5</p>
+      <h2 id="story-title" class="sec-head__title">Le parcours</h2>
+    </header>
+    <div class="story__grid">
+      <div class="story__intro" data-reveal>
+        <p class="lede">Sur Instagram, il résume son histoire en trois mots : <span class="q">« Ex 115 kg »</span>. Sur Threads : <span class="q">« Athlète & ancien gros »</span>. Aujourd’hui, il court la route et les sentiers, chronique les courses marocaines pour sa communauté et porte les couleurs running de Decathlon Maroc.</p>
+        <p class="story__mission"><span class="q">« Je suis là pour une seule mission ! ton changement . »</span><small>— son Linktree</small></p>
+        <p class="label-proposed">Texte d’introduction proposé, construit uniquement à partir de ses propres bios publiques.</p>
+        <Poster k="mist" class="poster--story" />
+      </div>
+      <ol class="milestones">
+        {MILESTONES.map((m, i) => (
+          <li class="ms" data-reveal style={`--i:${i}`}>
+            <span class="ms__dot" aria-hidden="true"></span>
+            <p class="ms__date">{m.date}</p>
+            <h3 class="ms__title">{m.title}</h3>
+            <p class="ms__text">{m.text}</p>
+            <a class="ms__src" href={m.src} target="_blank" rel="noopener noreferrer">Source : {m.srcLabel} <span aria-hidden="true">↗</span></a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- KM 10 — CHRONO -->
+  <section class="chrono" id="chrono" aria-labelledby="chrono-title">
+    <Topo variant="band" class="chrono__topo" withRoute={false} />
+    <header class="sec-head sec-head--light" data-reveal>
+      <p class="sec-head__km">KM 10</p>
+      <h2 id="chrono-title" class="sec-head__title">Chrono</h2>
+      <p class="sec-head__sub">Résultats officiels publiés par le chronométreur RaceTimer Morocco. Temps net (puce), du plus récent au plus ancien.</p>
+    </header>
+    <div class="chrono__best" data-reveal>
+      <p class="chrono__best-k">Meilleur 10 km officiel relevé</p>
+      <p class="chrono__best-v">{best.net}</p>
+      <p class="chrono__best-s">{best.race} · {best.date} · <a href={best.url} target="_blank" rel="noopener noreferrer">voir le résultat <span aria-hidden="true">↗</span></a></p>
+    </div>
+    <ol class="bibs">
+      {RESULTS.map((r, i) => (
+        <li class={`bib ${r.best ? 'bib--best' : ''}`} data-reveal style={`--i:${i}`}>
+          <div class="bib__pins" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p class="bib__no" aria-label={`Dossard ${r.bib}`}>{r.bib}</p>
+          <h3 class="bib__race">{r.race}<span>{r.sub}</span></h3>
+          <dl class="bib__data">
+            <div><dt>Date</dt><dd><time datetime={r.iso}>{r.date}</time></dd></div>
+            <div><dt>Distance</dt><dd>{r.dist}</dd></div>
+            <div class="bib__net"><dt>Temps net</dt><dd>{r.net}</dd></div>
+            <div><dt>Temps officiel</dt><dd>{r.gun}</dd></div>
+            <div><dt>Classement</dt><dd>{r.rank}</dd></div>
+          </dl>
+          <a class="bib__src" href={r.url} target="_blank" rel="noopener noreferrer">Résultat officiel · RaceTimer Morocco <span aria-hidden="true">↗</span></a>
+        </li>
+      ))}
+    </ol>
+    <div class="chrono__week" data-reveal>
+      <p class="chrono__week-v">70 km</p>
+      <p class="chrono__week-t"><span class="q">« 70 KM cette semaine. Chaque sortie a son histoire, chaque kilomètre a son importance. »</span><small>— Saad Khaled, Instagram, 22 nov. 2026 · <a href="https://www.instagram.com/saad.khaledd/p/DgDrSF_juuN/" target="_blank" rel="noopener noreferrer">publication <span aria-hidden="true">↗</span></a></small></p>
+    </div>
+    <p class="chrono__note">Pages publiques consultées le {SITE.observed}. Le profil Strava existe mais ses activités ne sont pas publiques : aucun tracé ni lieu précis n’est affiché ici.</p>
+  </section>
+
+  <!-- KM 15 — TERRAIN -->
+  <section class="terrain" id="terrain" aria-labelledby="terrain-title">
+    <header class="sec-head" data-reveal>
+      <p class="sec-head__km">KM 15</p>
+      <h2 id="terrain-title" class="sec-head__title">Terrain</h2>
+      <p class="sec-head__sub">Terre rouge, brume, asphalte, front de mer : ses décors d’entraînement, tels qu’il les filme. Chaque image lance le Short officiel correspondant.</p>
+    </header>
+    <div class="terrain__rail">
+      <div class="terrain__word" aria-hidden="true">Argile</div>
+      <Poster k="clay" class="poster--t1" />
+      <Poster k="forest" class="poster--t2" />
+      <div class="terrain__word terrain__word--b" aria-hidden="true">Brume</div>
+      <Poster k="track" class="poster--t3" />
+      <Poster k="corniche" class="poster--t4" />
+      <div class="terrain__word terrain__word--c" aria-hidden="true">Atlantique</div>
+      <Poster k="raceday" class="poster--t5" />
+      <Poster k="late" class="poster--t6" />
+    </div>
+  </section>
+
+  <!-- KM 18 — PARTENAIRES -->
+  <section class="partners" id="partenaires" aria-labelledby="partners-title">
+    <header class="sec-head" data-reveal>
+      <p class="sec-head__km">KM 18</p>
+      <h2 id="partners-title" class="sec-head__title">Partenaires</h2>
+    </header>
+    <div class="partners__grid">
+      <article class="deal" data-reveal>
+        <p class="deal__status"><span class="dot dot--live" aria-hidden="true"></span>Actuel</p>
+        <h3 class="deal__brand">Decathlon Maroc</h3>
+        <p class="deal__role">Ambassadeur running depuis le 23 juin 2026</p>
+        <blockquote class="deal__quote"><p>« Aujourd’hui, nous sommes fiers d’accueillir notre nouvel ambassadeur running, @saad.khaledd […] »</p><footer>— @decathlon.ma, Instagram, 23 juin 2026</footer></blockquote>
+        <h4 class="deal__h">Formats publiés avec @DecathlonMarocOfficial</h4>
+        <ul class="deal__formats">
+          {DECATHLON_FORMATS.map((f) => <li><a href={f.href} target="_blank" rel="noopener noreferrer"><span>{f.t}</span><time>{f.d}</time></a></li>)}
+        </ul>
+        <div class="igembed">
+          <button type="button" class="igembed__btn" data-ig="DZ76vOwjYxz" data-title="Publication Instagram officielle de Decathlon Maroc, 23 juin 2026">
+            <span class="igembed__k">Publication officielle @decathlon.ma</span>
+            <span class="igembed__t">Afficher l’annonce Instagram</span>
+            <small>Chargée depuis Instagram seulement après ce clic.</small>
+          </button>
+        </div>
+      </article>
+      <aside class="partners__side" data-reveal>
+        <div class="reach">
+          <h3 class="reach__h">Audience observée le {SITE.observed}</h3>
+          <dl class="reach__list">
+            <div><dt>Instagram</dt><dd>79,4 k</dd></div>
+            <div><dt>Vues YouTube</dt><dd>1,29 M</dd></div>
+            <div><dt>TikTok</dt><dd>6 729</dd></div>
+            <div><dt>Shorts publiés</dt><dd>574</dd></div>
+          </dl>
+          <p class="reach__note">Chiffres affichés publiquement par chaque plateforme ; ils évoluent.</p>
+        </div>
+        <div class="mentions">
+          <h3 class="mentions__h">Autres noms présents sur son Instagram</h3>
+          <ul class="mentions__list">{OTHER_MENTIONS.map((m) => <li>{m}</li>)}</ul>
+          <p class="mentions__note">Titres d’albums « à la une ». La nature et la période de ces collaborations restent à confirmer avec Saad : aucune n’est présentée ici comme un partenariat en cours.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- COMMUNAUTÉ & CONTENUS -->
+  <section class="crew" id="communaute" aria-labelledby="crew-title">
+    <header class="sec-head" data-reveal>
+      <p class="sec-head__km">KM 20</p>
+      <h2 id="crew-title" class="sec-head__title">Communauté <span class="amp">&</span> contenus</h2>
+      <p class="sec-head__sub"><span class="q">« Ta référence des courses au Maroc »</span> — sa bio. Revues de courses, conseils de veille de course, sorties en groupe.</p>
+    </header>
+    <ul class="series" data-reveal>{SERIES.map((s) => <li>{s}</li>)}</ul>
+    <div class="crew__films">
+      <Poster k="community" class="poster--c" />
+      <Poster k="sas" class="poster--c" />
+      <Poster k="beginner" class="poster--c" />
+      <Poster k="shoes" class="poster--c" />
+    </div>
+    <ul class="channels" data-reveal>
+      {CHANNELS.map((c) => (
+        <li><a href={c.href} target="_blank" rel="noopener noreferrer"><span class="channels__n">{c.name}</span><span class="channels__h">{c.handle}</span><span class="channels__s">{c.stat}<small>{c.note}</small></span><span class="channels__go" aria-hidden="true">↗</span></a></li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- KM 21,1 — ARRIVÉE -->
+  <section class="finish" id="arrivee" aria-labelledby="finish-title">
+    <Topo variant="finish" class="finish__topo" withRoute={false} />
+    <div class="finish__line" aria-hidden="true"><span>Arrivée</span></div>
+    <div class="finish__body" data-reveal>
+      <p class="sec-head__km">KM 21,1</p>
+      <h2 id="finish-title" class="finish__title">Une marque, une course, un événement&nbsp;?</h2>
+      <p class="finish__text">Partenariats running, couverture de course, lancement produit, sortie communautaire : le plus simple est d’écrire directement à Saad sur Instagram.</p>
+      <p class="label-proposed">Texte proposé — à valider par Saad.</p>
+      <div class="finish__actions">
+        <a class="btn btn--clay btn--xl" href={LINKS.instagramDm} target="_blank" rel="noopener noreferrer">Écrire à Saad sur Instagram <span aria-hidden="true">↗</span></a>
+        {LINKS.whatsapp && <a class="btn btn--ghost" href={LINKS.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span></a>}
+        <a class="btn btn--ghost" href={LINKS.youtubeShorts} target="_blank" rel="noopener noreferrer">Voir ses Shorts <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
