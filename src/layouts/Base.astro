@@ -1,0 +1,77 @@
+---
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource-variable/onest';
+import '@fontsource-variable/source-serif-4/wght-italic';
+import '@fontsource-variable/martian-mono';
+import '../styles/global.css';
+import { SITE, NAV, LINKS } from '../data/site';
+import { asset } from '../lib/url';
+interface Props { title?: string; description?: string }
+const { title = SITE.title, description = SITE.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = new URL(asset('og.png'), Astro.site).href;
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#1b1714" />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+  <link rel="preload" as="image" href="https://i.ytimg.com/vi/HV8YQGQB4Wc/oardefault.jpg" fetchpriority="high" referrerpolicy="no-referrer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="Saad Khaled — concept de site (démonstration non officielle)" />
+  <meta property="og:description" content="Running & trail · Discipline en personne. Concept proposé par Mansour Technologies — démonstration non officielle." />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={og} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Saad Khaled — Discipline en personne. Concept de site, démonstration non officielle." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Saad Khaled — concept de site (démonstration non officielle)" />
+  <meta name="twitter:image" content={og} />
+</head>
+<body>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <p class="notice" role="note">{SITE.notice}</p>
+  <header class="mast" data-mast>
+    <a class="mast__mark" href="#depart">
+      <span class="mast__bib">SK</span><span class="mast__name">Saad Khaled</span><span class="sr-only"> — retour au départ</span>
+    </a>
+    <nav class="mast__inline" aria-label="Sections">
+      {NAV.slice(1).map((n) => <a href={n.href}><span class="km">km {n.km}</span>{n.label}</a>)}
+    </nav>
+    <a class="mast__cta" href={LINKS.instagramDm} target="_blank" rel="noopener noreferrer">Partenariat <span aria-hidden="true">↗</span></a>
+    <button class="mast__menu" type="button" aria-expanded="false" aria-controls="route-nav" data-menu-open>
+      <span class="mast__menu-lines" aria-hidden="true"><i></i><i></i></span><span class="mast__menu-label">Parcours</span>
+    </button>
+  </header>
+  <div class="routenav" id="route-nav" role="dialog" aria-modal="true" aria-label="Parcours du site" hidden data-menu>
+    <div class="routenav__inner">
+      <div class="routenav__top">
+        <p class="routenav__kicker">Le parcours · 21 km de page</p>
+        <button class="routenav__close" type="button" data-menu-close aria-label="Fermer le menu">Fermer <span aria-hidden="true">×</span></button>
+      </div>
+      <ol class="routenav__list">
+        {NAV.map((n) => <li><a href={n.href} data-menu-link><span class="km">KM {n.km}</span><span class="lbl">{n.label}</span></a></li>)}
+      </ol>
+      <a class="routenav__cta" href={LINKS.instagramDm} target="_blank" rel="noopener noreferrer">Écrire à Saad sur Instagram <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <main id="main"><slot /></main>
+  <footer class="foot">
+    <p class="foot__notice">{SITE.notice}</p>
+    <p class="foot__credits">Images : posters officiels de Shorts YouTube publiés par @SaadKhaledd, utilisés uniquement comme bouton de lecture de la vidéo correspondante. Résultats : RaceTimer Morocco (pages publiques, relevées le {SITE.observed}). Aucun logo de marque n’est reproduit.</p>
+    <p class="foot__agency"><a href={SITE.agency.href} target="_blank" rel="noopener noreferrer">{SITE.agency.label}</a></p>
+  </footer>
+  <script>
+    import '../lib/client';
+  </script>
+</body>
+</html>

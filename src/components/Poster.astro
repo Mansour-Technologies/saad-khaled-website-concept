@@ -1,0 +1,15 @@
+---
+import { SHORTS } from '../data/site';
+interface Props { k: keyof typeof SHORTS; class?: string; eager?: boolean; showCaption?: boolean; sizes?: string }
+const { k, class: cls = '', eager = false, showCaption = true } = Astro.props;
+const s = SHORTS[k];
+const img = `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`;
+---
+<figure class={`poster ${cls}`} data-short={s.id}>
+  <button type="button" class="poster__btn" data-yt={s.id} data-title={s.title} aria-label={`Lire la vidéo officielle : ${s.title}`}>
+    <img src={img} alt="" width="1080" height="1920" loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager ? 'high' : 'auto'} style={`object-position:${s.pos ?? '50% 50%'}`} referrerpolicy="no-referrer" onerror="this.closest('.poster').classList.add('is-broken')" />
+    <span class="poster__fallback" aria-hidden="true"><span>{s.caption}</span><small>Short officiel · {s.date}</small></span>
+    <span class="poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" /></svg></span>
+  </button>
+  {showCaption && <figcaption><span class="poster__cap">{s.caption}</span><span class="poster__credit">Image : Short officiel YouTube — @SaadKhaledd · {s.date}</span></figcaption>}
+</figure>
